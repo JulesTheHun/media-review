@@ -11,7 +11,7 @@
 <p th:unless="${media} and ${medias.size()}">No media is currently available :(</p>
 
 <ul>
-    <li th:each="media : ${medias}"><span th:text="${media.title} "></span><a th:href="'/media/view/' + ${media.id}" th:text="Add Review"></a></li>
+    <li th:each="media : ${medias}"><a th:href="'/media/view/' + ${media.id}"><span th:text="${media.title}"></span></a></li>
 </ul>
 
 <p><a href="/media/add">Add Media</a></p>

@@ -8,15 +8,13 @@
 
 <nav th:replace="fragments :: navigation"></nav>
 
-<h2 th:text="${movie.title}"></h2>
-
 <p th:unless="${reviews} and ${reviews.size()}">No reviews currently written for this</p>
 
 <ul>
-    <li th:each="review : ${reviews}"><span th:text="${review.title} "></span><a th:href="'/review/view/' + ${review.id}" th:text="View Review"></a></li>
+    <li th:each="review : ${reviews}"><a th:href="'/review/view/' + ${review.id}"><span th:text="${review.title}"></span></a></li>
 </ul>
 
-<p><a href="/media/add">Add Media</a></p>
+<p><a href="/review/add">Add Review</a></p>
 
 </body>
 </html>

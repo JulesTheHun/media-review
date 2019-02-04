@@ -16,6 +16,7 @@ public class Media {
 
     @NotNull
     @Size(min=1, message = "Please enter a title")
+    @Column(unique = true)
     private String title;
 
     @OneToMany

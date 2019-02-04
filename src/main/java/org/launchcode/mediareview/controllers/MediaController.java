@@ -62,7 +62,6 @@ public class MediaController {
         }
         model.addAttribute("title", media.getTitle());
         model.addAttribute("reviews", reviews);
-        model.addAttribute("media", media);
         return "media/view";
     }
 }
