@@ -50,7 +50,7 @@ public class ReviewController {
         Media media = mediaDao.findOne(mediaId);
         review.setMedia(media);
         reviewDao.save(review);
-        return "redirect:/review/view" + review.getId();
+        return "redirect:/review/view/" + review.getId();
     }
 
     @RequestMapping(value="view/{reviewId}", method=RequestMethod.GET)
@@ -64,19 +64,26 @@ public class ReviewController {
     public String viewEditReviewForm(Model model, @PathVariable int reviewId) {
         Review review = reviewDao.findOne(reviewId);
         model.addAttribute("title", "Edit Review");
+        model.addAttribute("reviewId", reviewId);
         model.addAttribute(review);
         return "review/edit";
     }
 
     @RequestMapping(value="edit", method=RequestMethod.POST)
-    public String processEditReviewForm(Model model, @ModelAttribute @Valid Review review, Errors errors) {
+    public String processEditReviewForm(Model model, @ModelAttribute @Valid Review editReview, Errors errors, @RequestParam int reviewId) {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Edit Review");
-            return "redirect:/review/edit" + review.getId();
+            model.addAttribute("reviewId", reviewId);
+            return "redirect:/review/edit/" + reviewId;
         }
+
+        Review review = reviewDao.findOne(reviewId);
+
+        review.setTitle(editReview.getTitle());
+        review.setText(editReview.getText());
 
         reviewDao.save(review);
 
-        return "redirect:/review/view" + review.getId();
+        return "redirect:/review/view/" + review.getId();
     }
 }

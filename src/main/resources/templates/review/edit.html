@@ -17,6 +17,7 @@
         <input class="form-control" th:field="*{text}" />
         <span th:errors="*{text}" class="error"></span>
     </div>
+    <input type="hidden" name="reviewId" th:value="${reviewId}" />
     <input type="submit" value="Finish Edit" />
 </form>
 
