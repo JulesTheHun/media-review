@@ -5,6 +5,8 @@ import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -36,6 +38,12 @@ public class User {
         this.password = password;
     }
 
+    public List<String> getRoles() {
+        ArrayList<String> roles = new ArrayList<>();
+        roles.add("ROLE_USER");
+        return roles;
+    }
+
     public int getId() {
         return id;
     }
@@ -62,5 +70,23 @@ public class User {
 
     public String getPassword(){
         return password;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User user = (User) obj;
+        if (!username.equals(user.username)) {
+            return false;
+        }
+        return true;
     }
 }
