@@ -29,7 +29,7 @@ public class Review {
         this.text = text;
     }
 
-    public int getInt() {
+    public int getId() {
         return id;
     }
 

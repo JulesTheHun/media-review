@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("media")
@@ -54,12 +54,7 @@ public class MediaController {
     @RequestMapping(value="view/{mediaId}", method = RequestMethod.GET)
     public String view(Model model, @PathVariable int mediaId) {
         Media media = mediaDao.findOne(mediaId);
-        ArrayList<Review> reviews = new ArrayList<>();
-        for (Review review : reviewDao.findAll()) {
-            if (review.getMedia().getId() == mediaId) {
-                reviews.add(review);
-            }
-        }
+        List<Review> reviews = media.getReviews();
         model.addAttribute("title", media.getTitle());
         model.addAttribute("reviews", reviews);
         return "media/view";
