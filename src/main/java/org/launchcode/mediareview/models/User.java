@@ -15,10 +15,12 @@ public class User {
 
     @NotNull
     @Size(min = 5, max = 20)
+    @Column(unique=true)
     private String username;
 
     @NotNull
     @Email
+    @Column(unique=true)
     private String email;
 
     @NotNull
