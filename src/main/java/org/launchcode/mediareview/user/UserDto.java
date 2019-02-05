@@ -2,7 +2,6 @@ package org.launchcode.mediareview.user;
 
 import org.hibernate.validator.constraints.Email;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,6 +23,13 @@ public class UserDto {
     private String verify;
 
     public UserDto() { }
+
+    public UserDto(String username, String email, String password, String verify) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.setVerify(verify);
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -57,7 +63,7 @@ public class UserDto {
     public String getVerify() { return verify; }
 
     private void checkPasswordMatch() {
-        if (password != verify) {
+        if (!password.equals(verify)) {
             verify = null;
         }
     }

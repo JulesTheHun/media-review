@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -28,8 +25,9 @@ public class UserController {
 
     @ModelAttribute("user")
     public User getLoggedInUser(Principal principal) {
-        if (principal != null)
+        if (principal != null) {
             return userService.findByUsername(principal.getName());
+        }
         return null;
     }
 
@@ -54,22 +52,33 @@ public class UserController {
     }
 
     @GetMapping(value="/login")
-    public String login(Model model, Principal user, String error) {
+    public String displayLogin(Model model, Principal user) {
 
         if (user != null)
             return "redirect:/user/" + userService.findByUsername(user.getName()).getId();
 
-        if (error != null)
-            model.addAttribute("message", "Your username and/or password is invalid");
+        model.addAttribute("title", "Login");
 
-        return "login";
+        return "user/login";
     }
 
-    @RequestMapping(value="/user/{userId}")
+    @PostMapping(value="/login")
+    public String processLogin(Model model, Principal user) {
+
+        if (user != null)
+            return "redirect:/user/" + userService.findByUsername(user.getName()).getId();
+
+        model.addAttribute("title", "Login");
+        model.addAttribute("message", "Username and/or password is invalid");
+
+        return "user/login";
+    }
+
+    @RequestMapping(value="user/{userId}")
     public String index(Model model) {
         model.addAttribute("title", "Review List");
         model.addAttribute("reviews", reviewDao.findAll());
 
-        return "review/index";
+        return "user/index";
     }
 }

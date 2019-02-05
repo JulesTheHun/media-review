@@ -13,9 +13,9 @@
 <nav th:fragment="navigation">
     <a href="/media">Media</a> |
     <a href="/review">Reviews</a> |
-    <a href="/register" th:if="${#authorization.expression('!isAuthenticated()')}">Register</a> |
-    <a href="/login" th:if="${#authorization.expression('!isAuthenticated()')}">Login</a> |
-    <form th:if="${#authorization.expression('isAuthenticated()')}" th:action="@{/logout}" method="post">
+    <a href="/register">Register</a> |
+    <a href="/login">Login</a> |
+    <form th:action="@{/logout}" method="post">
         <input type="submit" value="Sign Out"/>
     </form>
 </nav>
