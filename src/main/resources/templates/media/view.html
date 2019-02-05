@@ -8,13 +8,27 @@
 
 <nav th:replace="fragments :: navigation"></nav>
 
+<h2>Reviews</h2>
 <p th:unless="${reviews} and ${reviews.size()}">No reviews currently written for this</p>
-
 <ul>
     <li th:each="review : ${reviews}"><a th:href="'/review/view/' + ${review.id}"><span th:text="${review.title}"></span></a></li>
 </ul>
 
-<p><a href="/review/add">Add Review</a></p>
+<h3>Add Review</h3>
+<form method="post" th:object="${review}" action="/review/add">
+    <div class="form-group">
+        <label th:for="title">Title</label>
+        <input class="form-control" th:field="*{title}" />
+        <span th:errors="*{title}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="text">Text</label>
+        <input class="form-control" th:field="*{text}" />
+        <span th:errors="*{text}" class="error"></span>
+    </div>
+    <input type="hidden" name="mediaId" th:value="${mediaId}" />
+    <input type="submit" value="Add Review" />
+</form>
 
 </body>
 </html>

@@ -57,6 +57,8 @@ public class MediaController {
         List<Review> reviews = media.getReviews();
         model.addAttribute("title", media.getTitle());
         model.addAttribute("reviews", reviews);
+        model.addAttribute(new Review());
+        model.addAttribute("mediaId", mediaId);
         return "media/view";
     }
 }
