@@ -31,6 +31,10 @@ public class User {
     @NotNull
     private Boolean enabled = true;
 
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Review> reviews = new ArrayList<>();
+
     public User() {
     }
 
@@ -81,6 +85,8 @@ public class User {
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
+
+    public List<Review> getReviews() { return reviews; }
 
     @Override
     public boolean equals(final Object obj) {
