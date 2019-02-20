@@ -8,7 +8,6 @@ import javax.validation.constraints.Size;
 public class UserDto {
 
     @NotNull
-    @Size(min = 5, max = 20)
     private String username;
 
     @NotNull

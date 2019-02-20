@@ -16,7 +16,6 @@ public class User {
     private int id;
 
     @NotNull
-    @Size(min = 5, max = 20)
     @Column(unique=true)
     private String username;
 
@@ -28,6 +27,9 @@ public class User {
     @NotNull
     @Size(min = 5, message = "Password must be at least five characters")
     private String password;
+
+    @NotNull
+    private Boolean enabled = true;
 
     public User() {
     }
@@ -70,6 +72,14 @@ public class User {
 
     public String getPassword(){
         return password;
+    }
+
+    public Boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

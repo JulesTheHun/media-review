@@ -48,14 +48,14 @@ public class UserController {
 
         userService.save(userDto);
 
-        return "redirect:/user/" + userService.findByUsername(userDto.getUsername()).getId();
+        return "redirect:/user";
     }
 
     @GetMapping(value="/login")
     public String displayLogin(Model model, Principal user) {
 
         if (user != null)
-            return "redirect:/user/" + userService.findByUsername(user.getName()).getId();
+            return "redirect:/user";
 
         model.addAttribute("title", "Login");
 
@@ -66,7 +66,7 @@ public class UserController {
     public String processLogin(Model model, Principal user) {
 
         if (user != null)
-            return "redirect:/user/" + userService.findByUsername(user.getName()).getId();
+            return "redirect:/user";
 
         model.addAttribute("title", "Login");
         model.addAttribute("message", "Username and/or password is invalid");
@@ -74,7 +74,7 @@ public class UserController {
         return "user/login";
     }
 
-    @RequestMapping(value="user/{userId}")
+    @RequestMapping(value="user")
     public String index(Model model) {
         model.addAttribute("title", "Review List");
         model.addAttribute("reviews", reviewDao.findAll());
