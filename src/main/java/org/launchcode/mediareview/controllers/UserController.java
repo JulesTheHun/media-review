@@ -52,25 +52,20 @@ public class UserController {
     }
 
     @GetMapping(value="/login")
-    public String displayLogin(Model model, Principal user) {
+    public String displayLogin(Model model, Principal user, String error, String logout) {
 
-        if (user != null)
+        if (user != null) {
             return "redirect:/user";
+        }
+
+        if (error != null) {
+            model.addAttribute("message", "Username and/or password is invalid");
+        }
+        if (logout !=null) {
+            model.addAttribute("message", "Logout successful!");
+        }
 
         model.addAttribute("title", "Login");
-
-        return "user/login";
-    }
-
-    @PostMapping(value="/login")
-    public String processLogin(Model model, Principal user) {
-
-        if (user != null)
-            return "redirect:/user";
-
-        model.addAttribute("title", "Login");
-        model.addAttribute("message", "Username and/or password is invalid");
-
         return "user/login";
     }
 
