@@ -15,21 +15,10 @@ import java.security.Principal;
 
 
 @Controller
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     private ReviewDao reviewDao;
-
-    @Autowired
-    private UserService userService;
-
-    @ModelAttribute("user")
-    public User getLoggedInUser(Principal principal) {
-        if (principal != null) {
-            return userService.findByUsername(principal.getName());
-        }
-        return null;
-    }
 
     @GetMapping(value="/register")
     public String displayRegisterForm(Model model) {

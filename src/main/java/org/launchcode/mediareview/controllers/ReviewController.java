@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("review")
-public class ReviewController {
+public class ReviewController extends BaseController{
 
     @Autowired
     private ReviewDao reviewDao;
@@ -49,6 +49,7 @@ public class ReviewController {
 
         Media media = mediaDao.findOne(mediaId);
         review.setMedia(media);
+
         reviewDao.save(review);
         return "redirect:/review/view/" + review.getId();
     }
