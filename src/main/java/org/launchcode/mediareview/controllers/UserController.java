@@ -2,6 +2,7 @@ package org.launchcode.mediareview.controllers;
 
 import org.launchcode.mediareview.models.User;
 import org.launchcode.mediareview.models.data.ReviewDao;
+import org.launchcode.mediareview.user.AccountExistsException;
 import org.launchcode.mediareview.user.UserDto;
 import org.launchcode.mediareview.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,17 @@ public class UserController extends BaseController {
             return "user/register";
         }
 
-        userService.save(userDto);
+        try {
+            userService.save(userDto);
+        } catch (AccountExistsException e){
+            if (e.doesEmailExist()) {
+                errors.reject("email", e.emailExistsMessage());
+            }
+            if (e.doesUsernameExist()) {
+                errors.reject("username", e.usernameExistsMessage());
+            }
+            return "user/register";
+        }
 
         return "redirect:/user";
     }
@@ -59,9 +70,12 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value="user")
-    public String index(Model model) {
-        model.addAttribute("title", "Review List");
-        model.addAttribute("reviews", reviewDao.findAll());
+    public String index(Model model, Principal principal) {
+
+        User user = getLoggedInUser(principal);
+
+        model.addAttribute("title", user.getUsername() + "'s Reviews");
+        model.addAttribute("reviews", user.getReviews());
 
         return "user/index";
     }

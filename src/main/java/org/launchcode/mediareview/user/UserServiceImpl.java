@@ -52,11 +52,29 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public User save(UserDto userDto){
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+    public User save(UserDto userDto) throws AccountExistsException {
+        boolean usernameExists;
+        boolean emailExists;
+
+        User existingUser = userRepository.findByUsername(userDto.getUsername());
+        usernameExists = accountExistenceCheck(existingUser);
+
+        existingUser = userRepository.findByEmail(userDto.getEmail());
+        emailExists = accountExistenceCheck(existingUser);
+
+        if (usernameExists || emailExists) {
+            throw new AccountExistsException(usernameExists, emailExists);
+        }
+
+        User user = new User(userDto.getUsername(), userDto.getEmail(),passwordEncoder.encode(userDto.getPassword()));
         return userRepository.save(user);
+    }
+
+    public boolean accountExistenceCheck(User existingUser) {
+        if (existingUser != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

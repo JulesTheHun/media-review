@@ -12,6 +12,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("review")
@@ -40,7 +41,7 @@ public class ReviewController extends BaseController{
     }
 
     @RequestMapping(value="add", method=RequestMethod.POST)
-    public String processAddReviewForm(Model model, @ModelAttribute @Valid Review review, Errors errors, @RequestParam int mediaId) {
+    public String processAddReviewForm(Model model, Principal user, @ModelAttribute @Valid Review review, Errors errors, @RequestParam int mediaId) {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Review");
             model.addAttribute("medias", mediaDao.findAll());
@@ -49,7 +50,7 @@ public class ReviewController extends BaseController{
 
         Media media = mediaDao.findOne(mediaId);
         review.setMedia(media);
-
+        review.setUser(getLoggedInUser(user));
         reviewDao.save(review);
         return "redirect:/review/view/" + review.getId();
     }
