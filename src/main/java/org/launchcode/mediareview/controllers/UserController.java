@@ -40,10 +40,10 @@ public class UserController extends BaseController {
             userService.save(userDto);
         } catch (AccountExistsException e){
             if (e.doesEmailExist()) {
-                errors.reject("email", e.emailExistsMessage());
+                errors.rejectValue("email", "email.alreadyexists", e.emailExistsMessage());
             }
             if (e.doesUsernameExist()) {
-                errors.reject("username", e.usernameExistsMessage());
+                errors.rejectValue("username", "username.alreadyexists", e.usernameExistsMessage());
             }
             return "user/register";
         }
