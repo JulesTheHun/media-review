@@ -33,7 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/review",
                         "/media/view/**",
                         "/review/view/**",
-                        "/register").permitAll()
+                        "/register",
+                        "/search").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -5,8 +5,11 @@ import org.launchcode.mediareview.models.Review;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("search")
@@ -20,12 +23,12 @@ public class SearchController extends BaseController {
         searchTypes.add("All");
     }
 
-    public void searchResults (String searchTerm, String searchType, ArrayList<Object> list) {
+    public void makeList (String searchType, String searchTerm, ArrayList<Object> list) {
         if (searchType.equals("All")) {
             for (Review review : reviewDao.findAll()) {
                 if (review.getTitle().toLowerCase().contains(searchTerm.toLowerCase()) ||
-                review.getText().toLowerCase().contains(searchTerm.toLowerCase()) ||
-                review.getMedia().getTitle().toLowerCase().contains(searchTerm.toLowerCase())) {
+                        review.getText().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                        review.getMedia().getTitle().toLowerCase().contains(searchTerm.toLowerCase())) {
                     list.add(review);
                 }
             }
@@ -51,19 +54,22 @@ public class SearchController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "")
-    public String search(Model model) {
+    @RequestMapping(value="")
+    public String search(Model model, String searchType, String searchTerm) {
         model.addAttribute("title", "Search");
         model.addAttribute("types", searchTypes);
-        return "search";
-    }
-
-    @RequestMapping(value = "results")
-    public String results(Model model, String searchType, String searchTerm) {
-        ArrayList<Object> list = new ArrayList<>();
-        searchResults(searchTerm, searchType, list);
-        model.addAttribute("types", searchTypes);
-        model.addAttribute("items", list);
+        if (searchType != null) {
+            if (searchTerm == null || searchTerm.trim().length() == 0) {
+                model.addAttribute("message", "Please enter something.");
+                return "search";
+            }
+            ArrayList<Object> list = new ArrayList<>();
+            makeList(searchType, searchTerm, list);
+            model.addAttribute("items", list);
+            if (list.size() < 1) {
+                model.addAttribute("message", "Sorry, no results. :(");
+            }
+        }
 
         return "search";
     }

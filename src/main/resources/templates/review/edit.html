@@ -14,7 +14,7 @@
     </div>
     <div class="form-group">
         <label th:for="text">Text</label>
-        <input class="form-control" th:field="*{text}" />
+        <textarea class="form-control" rows="10" th:field="*{text}"></textarea>
         <span th:errors="*{text}" class="error"></span>
     </div>
     <input type="hidden" name="reviewId" th:value="${reviewId}" />
