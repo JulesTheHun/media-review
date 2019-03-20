@@ -1,11 +1,8 @@
 package org.launchcode.mediareview.controllers;
 
 import org.launchcode.mediareview.models.User;
-import org.launchcode.mediareview.models.data.ReviewDao;
 import org.launchcode.mediareview.user.AccountExistsException;
 import org.launchcode.mediareview.user.UserDto;
-import org.launchcode.mediareview.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -17,9 +14,6 @@ import java.security.Principal;
 
 @Controller
 public class UserController extends BaseController {
-
-    @Autowired
-    private ReviewDao reviewDao;
 
     @GetMapping(value="/register")
     public String displayRegisterForm(Model model) {

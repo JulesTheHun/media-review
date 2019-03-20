@@ -2,9 +2,6 @@ package org.launchcode.mediareview.controllers;
 
 import org.launchcode.mediareview.models.Media;
 import org.launchcode.mediareview.models.Review;
-import org.launchcode.mediareview.models.data.MediaDao;
-import org.launchcode.mediareview.models.data.ReviewDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -18,13 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("media")
-public class MediaController {
-
-    @Autowired
-    private MediaDao mediaDao;
-
-    @Autowired
-    private ReviewDao reviewDao;
+public class MediaController extends BaseController{
 
     @RequestMapping(value="")
     public String index(Model model) {

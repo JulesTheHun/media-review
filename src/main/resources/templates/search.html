@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+    <h1 th:text="${title}">Default Title</h1>
+    <nav th:replace="fragments :: navigation"></nav>
+
+    <form th:action="@{/search/results}">
+        <h2>Search by:</h2>
+
+        <p>
+            <span th:each="type : ${types}">
+                <input
+                        type="radio"
+                        name="searchType"
+                        th:id="${type}"
+                        th:value="${type}"
+                        th:checked="${type == 'All'}"/>
+                <label th:for="${type}" th:text="${type}"></label>
+            </span>
+        </p>
+
+        <p>
+            <label for="searchTerm">Keyword:</label>
+            <input type="text" name="searchTerm" id="searchTerm" />
+        </p>
+
+        <input type="submit" value="Search" />
+    </form>
+
+    <hr />
+
+    <div th:if="${items} and ${items.size()}">
+        <h3 th:text="${items.size() + ' Result(s)'}"></h3>
+        <div th:each="item : ${item}">
+            <span th:if="${item instanceof T(org.launchcode.mediareview.models.Review)}">
+                <a th:href="'/review/view/' + ${review.id}"><span th:text="${review.title} + ' (' + ${review.media.title} + ')'"></span></a>
+            </span>
+            <span th:if="${item instanceof T(org.launchcode.mediareview.models.Media)}">
+                <a th:href="'/media/view/' + ${media.id}"><span th:text="${media.title}"></span></a>
+            </span>
+        </div>
+    </div>
+</body>
+</html>
